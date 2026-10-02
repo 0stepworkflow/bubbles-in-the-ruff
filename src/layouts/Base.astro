@@ -1,0 +1,108 @@
+---
+import '@fontsource/itim/latin-400.css';
+import '@fontsource-variable/nunito/wght.css';
+import '../styles/global.css';
+import itimFont from '@fontsource/itim/files/itim-latin-400-normal.woff2?url';
+import Logo from '../components/Logo.astro';
+import OpenBadge from '../components/OpenBadge.astro';
+import { business, nav, href, fullAddress, hoursLine, closedLine } from '../data/site';
+
+const { title, description, image } = Astro.props;
+const fullTitle = title ? `${title} | ${business.name} · ${business.city} Dog Grooming` : `${business.name} | Dog Grooming in ${business.city}, ${business.state}`;
+const desc = description ?? `Gentle, breed-specific dog grooming in ${business.city}, ${business.state}. Full grooms, baths, nail trims, de-shedding and more at ${fullAddress}. Call ${business.phone}.`;
+const canonical = new URL(Astro.url.pathname, Astro.site).href;
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (p) => { const full = (href(p)).replace(/\/$/, '') || '/'; return full === path; };
+const bubbles = [
+  { s: 46, l: '6%', d: 28, delay: -4, sway: 30 }, { s: 22, l: '18%', d: 22, delay: -14, sway: -20 },
+  { s: 64, l: '84%', d: 34, delay: -9, sway: -34 }, { s: 28, l: '72%', d: 24, delay: -18, sway: 24 },
+  { s: 18, l: '40%', d: 30, delay: -2, sway: 16 }, { s: 36, l: '56%', d: 36, delay: -22, sway: -26 },
+  { s: 52, l: '92%', d: 26, delay: -12, sway: -18 }, { s: 24, l: '30%', d: 32, delay: -26, sway: 22 },
+];
+const ld = {
+  '@context': 'https://schema.org', '@type': 'PetStore', name: business.name,
+  description: `Dog grooming salon in ${business.city}, ${business.state} focused on breed-specific grooming and compassionate care.`,
+  telephone: business.phoneIntl, email: business.email, url: Astro.site?.href,
+  address: { '@type': 'PostalAddress', streetAddress: business.street, addressLocality: business.city, addressRegion: business.state, postalCode: business.zip, addressCountry: 'US' },
+  openingHoursSpecification: [{ '@type': 'OpeningHoursSpecification', dayOfWeek: business.hours.openDays.map((d) => ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'][d]), opens: `${String(business.hours.openHour).padStart(2, '0')}:00`, closes: `${String(business.hours.closeHour).padStart(2, '0')}:00` }],
+};
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={desc} />
+    <meta name="theme-color" content="#fbf6ec" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href={href('/favicon.svg')} />
+    <link rel="preload" href={itimFont} as="font" type="font/woff2" crossorigin />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={desc} />
+    <meta property="og:site_name" content={business.name} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <script is:inline>document.documentElement.classList.add('js');</script>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="bubble-field" aria-hidden="true">
+      {bubbles.map((b) => <span class="bubble" style={`--s:${b.s}px;left:${b.l};--d:${b.d}s;--delay:${b.delay}s;--sway:${b.sway}px`}></span>)}
+    </div>
+
+    <header class="site-header" data-header>
+      <div class="container bar">
+        <a class="brand" href={href('/')} aria-label={`${business.name} — home`}>
+          <Logo height={56} />
+        </a>
+        <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav" aria-label="Menu" data-menu-toggle><span></span></button>
+        <nav class="nav" id="site-nav" aria-label="Main" data-nav>
+          {nav.map((n) => <a href={href(n.path)} aria-current={isCurrent(n.path) ? 'page' : undefined}>{n.label}</a>)}
+          <a class="btn btn--sm" href={business.phoneHref}>Call {business.phone}</a>
+        </nav>
+      </div>
+    </header>
+
+    <main id="main"><slot /></main>
+
+    <footer class="site-footer">
+      <div class="edge" aria-hidden="true"></div>
+      <div class="container">
+        <div class="footer-grid">
+          <div>
+            <a class="footer-logo" href={href('/')} aria-label={`${business.name} — home`}><Logo height={56} /></a>
+            <p>{business.tagline}</p>
+          </div>
+          <div>
+            <h4>Visit us</h4>
+            <p>{business.street}<br />{business.city}, {business.state} {business.zip}</p>
+            <p><a href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fullAddress)}`} rel="noopener">Get directions</a></p>
+          </div>
+          <div>
+            <h4>Hours</h4>
+            <p>{hoursLine}<br />{closedLine}</p>
+            <p><OpenBadge /></p>
+          </div>
+          <div>
+            <h4>Say hello</h4>
+            <ul>
+              <li><a href={business.phoneHref}>{business.phone}</a></li>
+              <li><a href={`mailto:${business.email}`}>{business.email}</a></li>
+              {nav.slice(1, 4).map((n) => <li><a href={href(n.path)}>{n.label}</a></li>)}
+            </ul>
+          </div>
+        </div>
+        <div class="footer-bottom">
+          <span>© {new Date().getFullYear()} {business.name}. All rights reserved.</span>
+          <span>{business.city}, {business.state} · Made with love for pups</span>
+        </div>
+      </div>
+    </footer>
+    <script>
+      import '../scripts/main.ts';
+    </script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { Image } from 'astro:assets';
+import { photos } from '../data/photos';
+import { business, href } from '../data/site';
+---
+<Base title="About" description={`Meet ${business.owner} and the team at ${business.name} — breed-specific, compassionate dog grooming in ${business.city}, ${business.state}.`}>
+  <section class="page-hero">
+    <span class="bubble" style="--s:60px;left:14%;top:24%"></span>
+    <span class="bubble" style="--s:32px;right:12%;top:44%;animation-delay:-2s"></span>
+    <div class="container">
+      <p class="eyebrow">About us</p>
+      <h1>Personal care, one pup at a time</h1>
+      <p>{business.name} is a {business.city} dog grooming shop built on relationships, patience and a whole lot of love for dogs.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="container split">
+      <div class="split-visual reveal">
+        <div class="blob blob--b"><Image src={photos.photo05.src} alt={photos.photo05.alt} widths={[400, 700]} sizes="(max-width: 860px) 80vw, 480px" loading="eager" /></div>
+        <span class="bubble float-bubble" style="--s:64px;top:-12px;right:-14px"></span>
+        <span class="bubble float-bubble" style="--s:30px;bottom:10%;left:-10px;animation-delay:-2s"></span>
+      </div>
+      <div class="reveal" style="--stagger:.1s">
+        <p class="eyebrow">Our story</p>
+        <h2>Meet {business.owner}</h2>
+        <p>Owner {business.owner} and the team focus on breed-specific grooming and compassionate care for dogs of all ages. <em>(Replace this paragraph with the owner’s real story.)</em></p>
+        <p>We’d rather build lasting relationships than grow for growth’s sake. That’s why so many of our clients stay with us for years.</p>
+        <p>We also keep an eye out for little health issues during a groom and let you know when a vet visit is a good idea.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--blue">
+    <div class="edge" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">What we believe</p>
+        <h2>The little things that matter</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card reveal"><div class="tile tile--blue"><Icon name="heart" /></div><h3>Relationships first</h3><p>We know you, we know your dog, and we remember what they like.</p></div>
+        <div class="card reveal" style="--stagger:.08s"><div class="tile tile--peach"><Icon name="scissors" /></div><h3>Breed-specific craft</h3><p>Every coat is different. We groom to suit the breed — and your preferences.</p></div>
+        <div class="card reveal" style="--stagger:.16s"><div class="tile tile--mint"><Icon name="shield" /></div><h3>Care beyond the cut</h3><p>We keep an eye out for skin, ear and coat concerns, so small issues don’t become big ones.</p></div>
+        <div class="card reveal" style="--stagger:.24s"><div class="tile tile--butter"><Icon name="bath-brush" /></div><h3>Pet-care tips</h3><p>We share pet-care know-how on social media, from seasonal safety to coat upkeep.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="edge" aria-hidden="true"></div>
+    <span class="bubble" style="--s:70px;left:7%;top:20%"></span>
+    <span class="bubble" style="--s:34px;right:10%;bottom:16%;animation-delay:-3s"></span>
+    <div class="container reveal">
+      <h2>Come say hi</h2>
+      <p>Stop by {business.street} or give us a call — we’d love to meet your pup.</p>
+      <div class="hero-cta">
+        <a class="btn btn--light" href={business.phoneHref}><Icon name="phone" /> {business.phone}</a>
+        <a class="btn btn--ghost" href={href('/contact/')}>Find us</a>
+      </div>
+    </div>
+  </section>
+</Base>

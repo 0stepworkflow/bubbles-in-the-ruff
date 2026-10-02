@@ -1,0 +1,48 @@
+---
+// Minimal two-tone line icons: navy outline + blue accent (the bubble color).
+const { name, size = 48 } = Astro.props;
+---
+<svg class="icon" width={size} height={size} viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+  {name === 'full-groom' && (<>
+    <circle cx="13" cy="37" r="5.5" /><circle cx="35" cy="37" r="5.5" />
+    <path d="M16.5 32.5 34 7M31.5 32.5 14 7" />
+    <circle cx="24" cy="23" r="1.6" class="accent-fill" stroke="none" />
+  </>)}
+  {name === 'bath-brush' && (<>
+    <path d="M6 25h36v3a11 11 0 0 1-11 11H17A11 11 0 0 1 6 28z" />
+    <path d="M13 39l-1.5 4M35 39l1.5 4" />
+    <circle cx="15" cy="16" r="4.5" class="accent-fill" stroke="none" /><circle cx="26" cy="10" r="3.2" class="accent-fill" stroke="none" /><circle cx="34" cy="17" r="2.4" class="accent-fill" stroke="none" />
+  </>)}
+  {name === 'nail-paw' && (<>
+    <circle cx="11" cy="21" r="3.8" /><circle cx="19.5" cy="12.5" r="4" /><circle cx="30" cy="12.5" r="4" /><circle cx="38.5" cy="21" r="3.8" />
+    <path d="M24.5 24c-6 0-11.5 5-11.5 9.5 0 3 2.4 5 5.3 5 2.3 0 3.8-1.2 6.2-1.2s3.9 1.2 6.2 1.2c2.9 0 5.3-2 5.3-5 0-4.500-5.500-9.500-11.500-9.500z" class="accent-fill" />
+  </>)}
+  {name === 'deshed' && (<>
+    <rect x="6" y="8" width="36" height="13" rx="5" class="accent-fill" />
+    <path d="M12 21v14M19 21v17M26 21v17M33 21v14M39 21v10" />
+  </>)}
+  {name === 'puppy' && (<>
+    <path d="M24 41S6 30.500 6 19.500A9 9 0 0 1 24 16a9 9 0 0 1 18 3.500C42 30.500 24 41 24 41z" class="accent-fill" />
+    <path d="M38 5v6M35 8h6M8 4v4M6 6h4" />
+  </>)}
+  {name === 'teeth-ears' && (<>
+    <path d="M13 8c-4.500 0-7 3.500-7 8 0 6 3.500 8.500 4 14 .5 4 2 8 4 8s2.500-6 5-6 3 6 5 6 3.500-4 4-8c.5-5.500 4-8 4-14 0-4.500-2.500-8-7-8-3 0-4.500 1.500-6 1.500S16 8 13 8z" class="accent-fill" />
+    <path d="M13 17c1.500 1.500 3 2 5 2" />
+  </>)}
+  {name === 'flea-tick' && (<>
+    <path d="M24 5l15 5.500V22c0 9.500-6.500 16-15 20-8.500-4-15-10.500-15-20V10.500z" class="accent-fill" />
+    <path d="M17 23l5 5 9-10" />
+  </>)}
+  {name === 'cat' && (<>
+    <path d="M8 8l9 7h14l9-7v22a16 12 0 0 1-32 0z" class="accent-fill" />
+    <circle cx="18" cy="26" r="1.700" fill="currentColor" stroke="none" /><circle cx="30" cy="26" r="1.700" fill="currentColor" stroke="none" />
+    <path d="M22.500 31h3l-1.500 2zM4 28l8 1.500M4 34l8-2M44 28l-8 1.500M44 34l-8-2" />
+  </>)}
+  {name === 'clock' && (<><circle cx="24" cy="24" r="17" class="accent-fill" /><path d="M24 14v10.500l7 4" /></>)}
+  {name === 'pin' && (<><path d="M24 43S9 30 9 19a15 15 0 0 1 30 0c0 11-15 24-15 24z" class="accent-fill" /><circle cx="24" cy="19" r="5" fill="var(--cream)" /></>)}
+  {name === 'phone' && (<path d="M12 6h8l3 10-5 3a24 24 0 0 0 11 11l3-5 10 3v8a4 4 0 0 1-4 4C21 40 8 27 8 10a4 4 0 0 1 4-4z" class="accent-fill" />)}
+  {name === 'mail' && (<><rect x="5" y="9" width="38" height="30" rx="5" class="accent-fill" /><path d="M6 13l18 14 18-14" /></>)}
+  {name === 'heart' && (<path d="M24 41S6 30.500 6 19.500A9 9 0 0 1 24 16a9 9 0 0 1 18 3.500C42 30.500 24 41 24 41z" class="accent-fill" />)}
+  {name === 'scissors' && (<><circle cx="13" cy="37" r="5.500" /><circle cx="35" cy="37" r="5.500" /><path d="M16.500 32.500 34 7M31.500 32.500 14 7" /></>)}
+  {name === 'shield' && (<><path d="M24 5l15 5.500V22c0 9.500-6.500 16-15 20-8.500-4-15-10.500-15-20V10.500z" class="accent-fill" /><path d="M17 23l5 5 9-10" /></>)}
+</svg>

@@ -1,0 +1,60 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { business, services, href } from '../data/site';
+---
+<Base title="Services & Prices" description={`Dog grooming services and prices in ${business.city}, ${business.state}: full grooms, bath & brush, nail trims, de-shedding, puppy first groom, teeth & ear care, flea & tick treatment and cat grooming.`}>
+  <section class="page-hero">
+    <span class="bubble" style="--s:64px;left:12%;top:22%"></span>
+    <span class="bubble" style="--s:30px;right:14%;top:40%;animation-delay:-2s"></span>
+    <div class="container">
+      <p class="eyebrow">Services &amp; prices</p>
+      <h1>Everything your pup needs, all in one tub</h1>
+      <p>Simple pricing, gentle hands. Final price can vary with your dog’s size and coat — call us for an exact quote.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="container">
+      <div class="service-grid">
+        {services.map((s, i) => (
+          <article class="service-card reveal" style={`--stagger:${(i % 4) * 0.07}s`}>
+            <div class={`tile tile--${s.tint}`}><Icon name={s.id} /></div>
+            <h3>{s.name}</h3>
+            <p>{s.blurb}</p>
+            <div class="price"><small>from</small>${s.price}</div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--blue">
+    <div class="edge" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">With every visit</p>
+        <h2>The {business.name} difference</h2>
+      </div>
+      <div class="card-grid">
+        <div class="card reveal"><div class="tile tile--blue"><Icon name="scissors" /></div><h3>Breed-specific styling</h3><p>Cuts and coat care matched to your dog’s breed and lifestyle.</p></div>
+        <div class="card reveal" style="--stagger:.08s"><div class="tile tile--peach"><Icon name="heart" /></div><h3>Gentle handling</h3><p>Compassionate care for dogs of all ages — puppies to seniors.</p></div>
+        <div class="card reveal" style="--stagger:.16s"><div class="tile tile--mint"><Icon name="shield" /></div><h3>A quick health check-in</h3><p>If we notice anything unusual while grooming, we’ll tell you and suggest a vet visit if needed.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section cta-band">
+    <div class="edge" aria-hidden="true"></div>
+    <span class="bubble" style="--s:60px;left:8%;top:20%"></span>
+    <span class="bubble" style="--s:34px;right:9%;bottom:18%;animation-delay:-3s"></span>
+    <div class="container reveal">
+      <h2>Not sure which service fits?</h2>
+      <p>Tell us about your pup and we’ll recommend the right one.</p>
+      <div class="hero-cta">
+        <a class="btn btn--light" href={business.phoneHref}><Icon name="phone" /> {business.phone}</a>
+        <a class="btn btn--ghost" href={href('/contact/')}>Send a request</a>
+      </div>
+    </div>
+  </section>
+</Base>

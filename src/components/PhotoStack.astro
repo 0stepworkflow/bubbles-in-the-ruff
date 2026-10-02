@@ -1,0 +1,21 @@
+---
+import { Image } from 'astro:assets';
+import { photos } from '../data/photos';
+const list = Object.values(photos);
+const tilts = [-2, 3, -3, 2, -1, 3, -3, 2, -2, 3, -1, 2];
+---
+<div class="stack-wrap">
+  <div class="stack" data-stack role="group" aria-roledescription="carousel" aria-label="Photos of our groomed pups" tabindex="0">
+    {list.map((p, i) => (
+      <figure class="stack-card" data-shape={i % 4} data-caption={p.caption} style={`--tilt:${tilts[i % tilts.length]}deg;--o:${i > 3 ? 4 : i};--abs:${i > 3 ? 4 : i}`}>
+        <Image src={p.src} alt={p.alt} widths={[320, 480, 640]} sizes="(max-width: 700px) 62vw, 300px" loading="eager" fetchpriority={i < 4 ? 'auto' : 'low'} decoding="async" />
+      </figure>
+    ))}
+  </div>
+  <div class="stack-controls">
+    <button class="round-btn" type="button" data-prev aria-label="Previous photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <p class="stack-caption" data-stack-caption aria-live="polite"></p>
+    <button class="round-btn" type="button" data-next aria-label="Next photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></button>
+  </div>
+  <p class="stack-hint">Swipe, tap a photo, or use the arrows</p>
+</div>

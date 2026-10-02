@@ -1,0 +1,54 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import { Image, getImage } from 'astro:assets';
+import { photos } from '../data/photos';
+import { business, href } from '../data/site';
+
+const items = await Promise.all(
+  Object.values(photos).map(async (p) => ({ ...p, full: (await getImage({ src: p.src, width: 1000, format: 'webp' })).src })),
+);
+---
+<Base title="Gallery" description={`Photos of freshly groomed pups at ${business.name}, a dog grooming salon in ${business.city}, ${business.state}.`}>
+  <section class="page-hero">
+    <span class="bubble" style="--s:70px;right:12%;top:18%"></span>
+    <span class="bubble" style="--s:28px;left:10%;top:48%;animation-delay:-3s"></span>
+    <div class="container">
+      <p class="eyebrow">Gallery</p>
+      <h1>Happy, fluffy &amp; fresh</h1>
+      <p>A peek at the pups who make our days. Tap any photo to see it bigger.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="container">
+      <div class="gallery">
+        {items.map((p, i) => (
+          <button class="gallery-item reveal" type="button" data-full={p.full} data-alt={p.alt} data-caption={p.caption} aria-label={`View larger: ${p.alt}`} style={`--stagger:${(i % 3) * 0.08}s`}>
+            <Image src={p.src} alt={p.alt} widths={[320, 480, 640]} sizes="(max-width: 700px) 92vw, 380px" loading={i < 4 ? 'eager' : 'lazy'} decoding="async" />
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <dialog class="lightbox" aria-label="Photo viewer">
+    <button class="round-btn" type="button" data-close aria-label="Close photo"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+    <img alt="" />
+    <p></p>
+  </dialog>
+
+  <section class="section cta-band">
+    <div class="edge" aria-hidden="true"></div>
+    <span class="bubble" style="--s:64px;left:8%;top:22%"></span>
+    <span class="bubble" style="--s:30px;right:10%;bottom:20%;animation-delay:-2s"></span>
+    <div class="container reveal">
+      <h2>Your pup could be next!</h2>
+      <p>Book a visit and let us pamper your best friend.</p>
+      <div class="hero-cta">
+        <a class="btn btn--light" href={business.phoneHref}><Icon name="phone" /> {business.phone}</a>
+        <a class="btn btn--ghost" href={href('/services/')}>See services</a>
+      </div>
+    </div>
+  </section>
+</Base>

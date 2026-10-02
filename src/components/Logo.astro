@@ -1,0 +1,16 @@
+---
+// Placeholder logo. Shows a glossy bubble + the business name from src/data/site.ts.
+// To use a real logo image: drop a file named logo.png (or .webp/.jpg) into src/assets/ — it is picked up automatically.
+import { Image } from 'astro:assets';
+import { business } from '../data/site';
+
+const { height = 56 } = Astro.props;
+const found = Object.values(import.meta.glob('../assets/logo.{png,webp,jpg,jpeg}', { eager: true })) as { default: ImageMetadata }[];
+const logo = found[0]?.default;
+---
+{logo
+  ? <Image src={logo} alt={business.name} height={height * 2} loading="eager" class="logo-img" style={`height:${height}px;width:auto`} />
+  : <span class="logo" role="img" aria-label={business.name} style={`--logo-h:${height}px`}>
+      <span class="bubble" style="--s:calc(var(--logo-h) * 0.62)"></span>
+      <span class="logo-text">{business.name}</span>
+    </span>}

@@ -1,0 +1,151 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PhotoStack from '../components/PhotoStack.astro';
+import { Image } from 'astro:assets';
+import { photos } from '../data/photos';
+import { business, services, href, hoursShortLine, hoursText } from '../data/site';
+
+const featured = services.filter((s) => ['full-groom', 'bath-brush', 'nail-paw', 'puppy'].includes(s.id));
+const iconFor = (id: string) => id;
+const poster = business.heroVideo ? business.heroVideo.replace(/\.mp4$/, '-poster.jpg') : undefined;
+---
+<Base>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <p class="eyebrow">Dog grooming in {business.city}, {business.state}</p>
+        <h1>Where every pup leaves <em>fresh, fluffy</em> &amp; happy.</h1>
+        <p class="lead">Gentle, breed-specific grooming from people who treat your dog like family — a warm, welcoming shop in {business.city}.</p>
+        <div class="hero-cta">
+          <a class="btn" href={business.phoneHref}><Icon name="phone" /> Call to book</a>
+          <a class="btn btn--ghost" href={href('/services/')}>See services &amp; prices</a>
+        </div>
+        <div class="hero-meta">
+          <span><Icon name="clock" /> {hoursShortLine}</span>
+          <span><Icon name="pin" /> {business.street}</span>
+        </div>
+      </div>
+
+      <div class="hero-visual">
+        <!-- To use a real video: set business.heroVideo in src/data/site.ts (see README) -->
+        <div class="blob blob--main">
+          {business.heroVideo
+            ? <video src={href(business.heroVideo)} poster={poster ? href(poster) : undefined} autoplay muted loop playsinline preload="metadata" aria-label={`Pups at ${business.name}`}></video>
+            : <Image src={photos.photo01.src} alt={photos.photo01.alt} widths={[420, 640, 860]} sizes="(max-width: 860px) 80vw, 520px" loading="eager" fetchpriority="high" />}
+        </div>
+        <div class="blob blob--side"><Image src={photos.photo02.src} alt={photos.photo02.alt} widths={[240, 400]} sizes="220px" loading="eager" /></div>
+        <div class="blob blob--tiny"><Image src={photos.photo03.src} alt={photos.photo03.alt} widths={[160, 280]} sizes="140px" loading="eager" /></div>
+        <button class="pop" type="button" style="top:-2%;right:10%;--delay:-1s" aria-label="Pop the bubble"><span class="bubble" style="--s:62px"></span></button>
+        <button class="pop" type="button" style="top:30%;left:-6%;--delay:-2.5s" aria-label="Pop the bubble"><span class="bubble" style="--s:34px"></span></button>
+        <button class="pop" type="button" style="top:12%;right:-5%;--delay:-3.5s" aria-label="Pop the bubble"><span class="bubble" style="--s:24px"></span></button>
+        <button class="pop" type="button" style="bottom:34%;right:-8%;--delay:-0.5s" aria-label="Pop the bubble"><span class="bubble" style="--s:40px"></span></button>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST STRIP -->
+  <section class="trust" aria-label="Why pet parents choose us">
+    <div class="container">
+      <div class="trust-grid reveal">
+        <div class="trust-item"><div class="tile tile--blue"><Icon name="scissors" /></div><div><strong>Breed-specific</strong><span>cuts &amp; coat care</span></div></div>
+        <div class="trust-item"><div class="tile tile--peach"><Icon name="heart" /></div><div><strong>Gentle &amp; loving</strong><span>every dog, every age</span></div></div>
+        <div class="trust-item"><div class="tile tile--mint"><Icon name="shield" /></div><div><strong>Health-aware</strong><span>we flag anything to watch</span></div></div>
+        <div class="trust-item"><div class="tile tile--butter"><Icon name="bath-brush" /></div><div><strong>{business.stat.value}</strong><span>{business.stat.label}</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHOTO STACK -->
+  <section class="section" id="happy-pups">
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Fresh from the tub</p>
+        <h2>Meet some of our favorite faces</h2>
+        <p>A few of the pups who’ve left our shop smelling great and feeling even better.</p>
+      </div>
+      <div class="reveal"><PhotoStack /></div>
+      <p style="text-align:center;margin-top:1.5rem"><a class="btn btn--ghost btn--sm" href={href('/gallery/')}>See the whole gallery</a></p>
+    </div>
+  </section>
+
+  <!-- SERVICES PREVIEW -->
+  <section class="section section--alt">
+    <div class="edge" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">What we do</p>
+        <h2>Spa day, every day</h2>
+        <p>From a quick bubble bath to a full breed-perfect groom — simple, honest pricing.</p>
+      </div>
+      <div class="service-grid">
+        {featured.map((s, i) => (
+          <article class={`service-card reveal`} style={`--stagger:${i * 0.08}s`}>
+            <div class={`tile tile--${s.tint}`}><Icon name={iconFor(s.id)} /></div>
+            <h3>{s.name}</h3>
+            <p>{s.blurb}</p>
+            <div class="price"><small>from</small>${s.price}</div>
+          </article>
+        ))}
+      </div>
+      <p style="text-align:center;margin-top:2rem"><a class="btn" href={href('/services/')}>All services &amp; prices</a></p>
+    </div>
+  </section>
+
+  <!-- ABOUT TEASER -->
+  <section class="section">
+    <div class="edge" aria-hidden="true" style="color:var(--cream)"></div>
+    <div class="container split">
+      <div class="reveal">
+        <p class="eyebrow">Our shop</p>
+        <h2>More like a cozy living room than a salon</h2>
+        <p>{business.name} is run by <strong>{business.owner}</strong> and a team who put personal relationships ahead of rushing through the day. We know our regulars by name — and so do their tails.</p>
+        <ul class="checks">
+          <li><span class="bubble"></span><span><strong>Breed-specific grooming</strong> — the right cut for your dog’s coat, not a one-size-fits-all trim.</span></li>
+          <li><span class="bubble"></span><span><strong>Patience with every pup</strong> — nervous, wiggly or senior, we take the time they need.</span></li>
+          <li><span class="bubble"></span><span><strong>A second set of eyes</strong> — we spot skin, ear or coat concerns and let you know if a vet visit is wise.</span></li>
+        </ul>
+        <a class="btn btn--ghost" href={href('/about/')}>Meet the team</a>
+      </div>
+      <div class="split-visual reveal" style="--stagger:.1s">
+        <div class="blob blob--b"><Image src={photos.photo04.src} alt={photos.photo04.alt} widths={[400, 700]} sizes="(max-width: 860px) 80vw, 480px" loading="lazy" /></div>
+        <span class="bubble float-bubble" style="--s:70px;top:-14px;left:-18px"></span>
+        <span class="bubble float-bubble" style="--s:34px;bottom:12%;right:-12px;animation-delay:-2s"></span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CLIENT THEMES -->
+  <section class="section section--blue">
+    <div class="edge" aria-hidden="true"></div>
+    <div class="container">
+      <div class="section-head reveal">
+        <p class="eyebrow">Why people keep coming back</p>
+        <h2>What clients say</h2>
+        <p>Replace these three cards with real highlights from your client reviews.</p>
+      </div>
+      <div class="card-grid">
+        <div class="card reveal"><div class="tile tile--blue"><Icon name="scissors" /></div><h3>Professional</h3><p>Skilled, careful grooming with a real eye for each breed’s coat.</p></div>
+        <div class="card reveal" style="--stagger:.08s"><div class="tile tile--peach"><Icon name="heart" /></div><h3>Loving with animals</h3><p>A calm, gentle touch that keeps even nervous pups comfortable.</p></div>
+        <div class="card reveal" style="--stagger:.16s"><div class="tile tile--mint"><Icon name="clock" /></div><h3>Accommodating</h3><p>We work with your pup’s needs and your schedule, whatever the coat or quirks.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="section cta-band">
+    <div class="edge" aria-hidden="true"></div>
+    <span class="bubble" style="--s:80px;left:6%;top:18%"></span>
+    <span class="bubble" style="--s:36px;right:10%;top:12%;animation-delay:-2s"></span>
+    <span class="bubble" style="--s:54px;right:5%;bottom:14%;animation-delay:-4s"></span>
+    <div class="container reveal">
+      <h2>Ready for a squeaky-clean pup?</h2>
+      <p>Give us a call or send a note and we’ll find a time that works. We’re open {business.hours.daysLong}, {hoursText}.</p>
+      <div class="hero-cta">
+        <a class="btn btn--light" href={business.phoneHref}><Icon name="phone" /> {business.phone}</a>
+        <a class="btn btn--ghost" href={href('/contact/')}>Send a request</a>
+      </div>
+    </div>
+  </section>
+</Base>

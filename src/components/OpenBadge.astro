@@ -1,0 +1,6 @@
+---
+import { business } from '../data/site';
+const h = business.hours;
+const { style } = Astro.props;
+---
+<span class="open-badge" data-open-badge data-open-hour={h.openHour} data-close-hour={h.closeHour} data-days={h.openDays.join(',')} data-tz={h.timezone} style={style}>Checking hours…</span>

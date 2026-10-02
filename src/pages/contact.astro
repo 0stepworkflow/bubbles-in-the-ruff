@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import OpenBadge from '../components/OpenBadge.astro';
+import { business, services, fullAddress, mapsQuery, hoursText } from '../data/site';
+---
+<Base title="Contact & Hours" description={`Call ${business.phone} or visit ${business.name} at ${fullAddress}. Open ${business.hours.daysLong}, ${hoursText}.`}>
+  <section class="page-hero">
+    <span class="bubble" style="--s:62px;right:13%;top:20%"></span>
+    <span class="bubble" style="--s:28px;left:11%;top:46%;animation-delay:-2s"></span>
+    <div class="container">
+      <p class="eyebrow">Contact &amp; hours</p>
+      <h1>Let’s get your pup scheduled</h1>
+      <p>Call, email or send a request below. Online booking is coming soon — for now, we’ll confirm your appointment personally.</p>
+    </div>
+  </section>
+
+  <section class="section" style="padding-top:1rem">
+    <div class="container contact-grid">
+      <div class="reveal">
+        <div class="info-list">
+          <a class="info-row" href={business.phoneHref}><div class="tile tile--blue"><Icon name="phone" /></div><div><small>Call or text</small><strong>{business.phone}</strong></div></a>
+          <a class="info-row" href={`mailto:${business.email}`}><div class="tile tile--peach"><Icon name="mail" /></div><div><small>Email</small><strong>{business.email}</strong></div></a>
+          <a class="info-row" href={`https://www.google.com/maps/search/?api=1&query=${mapsQuery}`} rel="noopener"><div class="tile tile--mint"><Icon name="pin" /></div><div><small>Visit us</small><strong>{business.street}<br />{business.city}, {business.state} {business.zip}</strong></div></a>
+          <div class="info-row"><div class="tile tile--butter"><Icon name="clock" /></div><div style="flex:1"><small>Hours</small>
+            <table class="hours-table"><tbody>
+              <tr><td>{business.hours.daysLong}</td><td>{hoursText}</td></tr>
+              <tr><td>{business.hours.closedDays}</td><td>Closed</td></tr>
+            </tbody></table>
+            <OpenBadge style="margin-top:.5rem" />
+          </div></div>
+        </div>
+        {business.showMap && <div class="map">
+          <iframe title={`Map showing ${business.name}`} loading="lazy" referrerpolicy="no-referrer-when-downgrade" src={`https://www.google.com/maps?q=${mapsQuery}&output=embed`}></iframe>
+        </div>}
+      </div>
+
+      <form class="request reveal" style="--stagger:.1s" data-email={business.email}>
+        <div>
+          <h2 style="font-size:2.1rem;margin-bottom:.2em">Request an appointment</h2>
+          <p class="form-note">This opens a pre-filled email to our team. We’ll reply to confirm your time.</p>
+        </div>
+        <div class="field-row">
+          <div class="field"><label for="name">Your name</label><input id="name" name="name" autocomplete="name" required /></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" name="phone" type="tel" autocomplete="tel" required /></div>
+        </div>
+        <div class="field"><label for="pet">Pup’s name &amp; breed</label><input id="pet" name="pet" required /></div>
+        <div class="field-row">
+          <div class="field"><label for="service">Service</label>
+            <select id="service" name="service">
+              {services.map((s) => <option value={s.name}>{s.name} — from ${s.price}</option>)}
+              <option value="Not sure yet">Not sure yet</option>
+            </select>
+          </div>
+          <div class="field"><label for="day">Preferred day</label><input id="day" name="day" placeholder="e.g. Tuesday morning" /></div>
+        </div>
+        <div class="field"><label for="notes">Anything we should know?</label><textarea id="notes" name="notes" placeholder="Coat condition, nervous around dryers, allergies…"></textarea></div>
+        <button class="btn" type="submit">Send request</button>
+      </form>
+    </div>
+  </section>
+</Base>
